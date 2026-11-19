@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LANDSLIDE MONITOR - Hệ thống cảnh báo sạt lở</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- THANH ĐIỀU HƯỚNG -->
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">⛰️</div>
+            <div>
+                <h2>LANDSLIDE</h2>
+                <span>MONITOR SYSTEM</span>
+            </div>
+        </div>
+
+        <div class="nav-title">MENU CHÍNH</div>
+
+        <nav>
+            <button class="nav-btn active" data-page="overview">
+                <span>▦</span> Tổng quan
+            </button>
+
+            <button class="nav-btn" data-page="monitor">
+                <span>⌁</span> Giám sát
+            </button>
+
+            <button class="nav-btn" data-page="history">
+                <span>◷</span> Lịch sử cảnh báo
+            </button>
+
+            <button class="nav-btn" data-page="guide">
+                <span>☂</span> Hướng dẫn ứng phó
+            </button>
+
+            <button class="nav-btn" data-page="settings">
+                <span>⚙</span> Cài đặt
+            </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="mini-status">
+                <span class="pulse-dot"></span>
+                <div>
+                    <b>Hệ thống</b>
+                    <small id="sidebarStatus">Đang hoạt động</small>
+                </div>
+            </div>
+
+            <div class="project-info">
+                DỰ ÁN KHOA HỌC KỸ THUẬT
+                <br>
+                HỆ THỐNG CẢNH BÁO SẠT LỞ ĐẤT
+            </div>
+        </div>
+    </aside>
+
+    <!-- KHU VỰC NỘI DUNG -->
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <div class="breadcrumb">HỆ THỐNG / <span id="pageName">TỔNG QUAN</span></div>
+                <h1 id="pageTitle">Tổng quan hệ thống</h1>
+            </div>
+
+            <div class="top-actions">
+                <div class="mode-badge" id="modeBadge">
+                    ● MÔ PHỎNG
+                </div>
+
+                <button class="icon-btn" id="soundBtn" title="Bật/tắt âm thanh">
+                    🔔
+                </button>
+
+                <div class="date-box">
+                    <span>📅</span>
+                    <span id="clock">--:--:--</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- TRANG TỔNG QUAN -->
+        <section class="page active" id="overview">
+
+            <div class="welcome">
+                <div>
+                    <h2>Trung tâm giám sát sạt lở đất</h2>
+                    <p>
+                        Theo dõi tình trạng đất và phát hiện những dấu hiệu
+                        bất thường nhằm hỗ trợ cảnh báo sớm.
+                    </p>
+                </div>
+                <div class="welcome-icon">🌧️⛰️</div>
+            </div>
+
+            <div class="alert-banner safe" id="alertBanner">
+                <div class="alert-symbol" id="alertSymbol">✓</div>
+                <div class="alert-content">
+                    <h2 id="alertTitle">HỆ THỐNG ĐANG AN TOÀN</h2>
+                    <p id="alertDescription">
+                        Chưa phát hiện dấu hiệu bất thường trong dữ liệu giám sát.
+                    </p>
+                </div>
+                <span class="alert-time" id="alertTime">Đang cập nhật</span>
+            </div>
+
+            <div class="section-heading">
+                <h2>Thông số cảm biến</h2>
+                <span class="live-label"><span class="pulse-dot"></span> CẬP NHẬT</span>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>💧</span>
+                        <span class="stat-tag">ĐỘ ẨM ĐẤT</span>
+                    </div>
+                    <div class="stat-value">
+                        <span id="moistureValue">--</span><small>%</small>
+                    </div>
+                    <div class="stat-bottom">
+                        <span id="moistureStatus">Đang đọc dữ liệu</span>
+                    </div>
+                    <div class="progress">
+                        <div id="moistureBar" class="progress-fill blue"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>📳</span>
+                        <span class="stat-tag">RUNG ĐỘNG</span>
+                    </div>
+                    <div class="stat-value">
+                        <span id="vibrationValue">--</span><small>/ 100</small>
+                    </div>
+                    <div class="stat-bottom">
+                        <span id="vibrationStatus">Đang đọc dữ liệu</span>
+                    </div>
+                    <div class="progress">
+                        <div id="vibrationBar" class="progress-fill orange"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>🌡️</span>
+                        <span class="stat-tag">NHIỆT ĐỘ</span>
+                    </div>
+                    <div class="stat-value">
+                        <span id="temperatureValue">--</span><small>°C</small>
+                    </div>
+                    <div class="stat-bottom">
+                        <span>Thông số môi trường</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <span>📡</span>
+                        <span class="stat-tag">KẾT NỐI</span>
+                    </div>
+                    <div class="stat-value connection-value" id="connectionValue">
+                        Mô phỏng
+                    </div>
+                    <div class="stat-bottom">
+                        <span id="connectionStatus">Đang hoạt động</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="content-grid">
+
+                <div class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Biểu đồ theo dõi</h3>
+                            <p>Diễn biến thông số theo thời gian</p>
+                        </div>
+
+                        <select id="chartSelect">
+                            <option value="moisture">Độ ẩm đất</option>
+                            <option value="vibration">Rung động</option>
+                        </select>
+                    </div>
+
+                    <canvas id="chartCanvas"></canvas>
+
+                    <div class="chart-footer">
+                        <span>● <span id="chartLegend">Độ ẩm đất (%)</span></span>
+                        <span id="chartUpdate">Đang cập nhật</span>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h3>Trạng thái cảm biến</h3>
+                            <p>Kiểm tra hoạt động</p>
+                        </div>
+                    </div>
+
+                    <div class="sensor-list">
+
+                        <div class="sensor-item">
+                            <div class="sensor-icon blue-bg">💧</div>
+                            <div class="sensor-info">
+                                <b>Cảm biến độ ẩm</b>
+                                <small>Soil Moisture Sensor</small>
+                            </div>
+                            <span class="sensor-online" id="sensorMoisture">Hoạt động</span>
+                        </div>
+
+                        <div class="sensor-item">
+                            <div class="sensor-icon orange-bg">📳</div>
+                            <div class="sensor-info">
+                                <b>Cảm biến rung</b>
+                                <small>SW-420</small>
+                            </div>
+                            <span class="sensor-online" id="sensorVibration">Hoạt động</span>
+                        </div>
+
+                        <div class="sensor-item">
+                            <div class="sensor-icon purple-bg">🧠</div>
+                            <div class="sensor-info">
+                                <b>Bộ điều khiển</b>
+                                <small>Arduino Uno</small>
+                            </div>
+                            <span class="sensor-online" id="sensorArduino">Hoạt động</span>
+                        </div>
+
+                    </div>
+
+                    <button class="primary-btn full-btn" id="testBtn">
+                        ▶ Kiểm tra hệ thống
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="panel emergency-panel" id="emergencyPanel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Hướng dẫn khi có cảnh báo</h3>
+                        <p id="quickGuideTitle">Khuyến nghị an toàn</p>
+                    </div>
+                    <span>🛡️</span>
+                </div>
+
+                <div id="quickGuide">
+                    <p>• Theo dõi tình hình thời tiết và thông báo từ cơ quan chức năng.</p>
+                    <p>• Kiểm tra hệ thống cảnh báo thường xuyên.</p>
+                    <p>• Chuẩn bị phương án di chuyển đến nơi an toàn khi cần thiết.</p>
+                </div>
+
+                <button class="secondary-btn" data-open-page="guide">
+                    Xem hướng dẫn đầy đủ →
+                </button>
+            </div>
+
+        </section>
+
+        <!-- TRANG GIÁM SÁT -->
+        <section class="page" id="monitor">
+
+            <div class="welcome">
+                <div>
+                    <h2>Giám sát dữ liệu cảm biến</h2>
+                    <p>Quan sát dữ liệu và các biến động được ghi nhận.</p>
+                </div>
+                <div class="welcome-icon">📊</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-top"><span>💧</span><span>ĐỘ ẨM</span></div>
+                    <div class="stat-value"><span id="monitorMoisture">--</span><small>%</small></div>
+                    <p>Giá trị hiện tại</p>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-top"><span>📳</span><span>RUNG ĐỘNG</span></div>
+                    <div class="stat-value"><span id="monitorVibration">--</span><small>/100</small></div>
+                    <p>Mức rung mô phỏng</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Dữ liệu giám sát trực tiếp</h3>
+                        <p>Biểu đồ thay đổi theo thời gian</p>
+                    </div>
+                </div>
+
+                <canvas id="monitorCanvas"></canvas>
+            </div>
+
+            <div class="panel">
+                <h3>Giải thích thông số</h3>
+
+                <div class="explain-grid">
+                    <div>
+                        <h4>💧 Độ ẩm đất</h4>
+                        <p>
+                            Độ ẩm tăng cao kéo dài có thể làm thay đổi tính chất
+                            của đất và là một yếu tố cần theo dõi khi đánh giá nguy cơ.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4>📳 Rung động</h4>
+                        <p>
+                            Rung động bất thường có thể là tín hiệu cần kiểm tra.
+                            Cảm biến rung đơn giản không thể xác định chính xác
+                            chuyển động của khối đất.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- TRANG LỊCH SỬ -->
+        <section class="page" id="history">
+
+            <div class="welcome">
+                <div>
+                    <h2>Lịch sử hoạt động</h2>
+                    <p>Ghi lại những lần hệ thống thay đổi trạng thái cảnh báo.</p>
+                </div>
+                <div class="welcome-icon">📋</div>
+            </div>
+
+            <div class="history-summary">
+                <div class="summary-card">
+                    <span>Tổng số bản ghi</span>
+                    <h2 id="historyCount">0</h2>
+                </div>
+
+                <div class="summary-card">
+                    <span>Cảnh báo gần nhất</span>
+                    <h2 id="lastAlert">Chưa có</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <div>
+                        <h3>Nhật ký cảnh báo</h3>
+                        <p>Thông tin các sự kiện</p>
+                    </div>
+
+                    <button class="secondary-btn" id="clearHistory">
+                        Xóa lịch sử
+                    </button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Thời gian</th>
+                                <th>Trạng thái</th>
+                                <th>Độ ẩm</th>
+                                <th>Rung động</th>
+                                <th>Nội dung</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyTable">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="empty-state" id="emptyHistory">
+                    Chưa có dữ liệu lịch sử.
+                </div>
+            </div>
+
+        </section>
+
+        <!-- TRANG HƯỚNG DẪN -->
+        <section class="page" id="guide">
+
+            <div class="welcome">
+                <div>
+                    <h2>Hướng dẫn ứng phó</h2>
+                    <p>Thông tin tham khảo nhằm hỗ trợ người dân chủ động phòng tránh.</p>
+                </div>
+                <div class="welcome-icon">🛡️</div>
+            </div>
+
+            <div class="guide-alert">
+                <h3>⚠️ Lưu ý quan trọng</h3>
+                <p>
+                    Đây là mô hình hỗ trợ giám sát học tập, không phải thiết bị
+                    dự báo sạt lở đã được kiểm định. Khi có dấu hiệu nguy hiểm,
+                    hãy ưu tiên hướng dẫn của cơ quan chức năng và di chuyển
+                    đến nơi an toàn.
+                </p>
+            </div>
+
+            <div class="guide-grid">
+
+                <div class="guide-card safe-guide">
+                    <div class="guide-icon">🟢</div>
+                    <h3>Khi hệ thống bình thường</h3>
+                    <ul>
+                        <li>Thường xuyên theo dõi thời tiết.</li>
+                        <li>Kiểm tra cảm biến và nguồn điện.</li>
+                        <li>Không tự ý thay đổi vị trí thiết bị.</li>
+                        <li>Chú ý các dấu hiệu bất thường trên địa hình.</li>
+                    </ul>
+                </div>
+
+                <div class="guide-card warning-guide">
+                    <div class="guide-icon">🟡</div>
+                    <h3>Khi có cảnh báo</h3>
+                    <ul>
+                        <li>Thông báo cho người lớn và người xung quanh.</li>
+                        <li>Hạn chế đến gần khu vực sườn dốc nguy hiểm.</li>
+                        <li>Chuẩn bị phương án di chuyển.</li>
+                        <li>Theo dõi thông báo của chính quyền.</li>
+                    </ul>
+                </div>
+
+                <div class="guide-card danger-guide">
+                    <div class="guide-icon">🔴</div>
+                    <h3>Khi có nguy cơ nguy hiểm</h3>
+                    <ul>
+                        <li>Rời khỏi khu vực nguy hiểm ngay khi có thể.</li>
+                        <li>Không đi qua khu vực sạt lở hoặc dòng đất đá.</li>
+                        <li>Đến vị trí an toàn theo hướng dẫn sơ tán.</li>
+                        <li>Liên hệ lực lượng cứu hộ hoặc chính quyền địa phương.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="panel">
+                <h3>Một số dấu hiệu cần chú ý</h3>
+                <div class="sign-list">
+                    <div>⚠️ Xuất hiện vết nứt mới trên mặt đất hoặc công trình.</div>
+                    <div>⚠️ Đất, đá có dấu hiệu dịch chuyển.</div>
+                    <div>⚠️ Nước ở sườn dốc thay đổi bất thường.</div>
+                    <div>⚠️ Có tiếng động hoặc rung chuyển bất thường ở địa hình.</div>
+                    <div>⚠️ Mưa lớn kéo dài tại khu vực có nguy cơ.</div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- TRANG CÀI ĐẶT -->
+        <section class="page" id="settings">
+
+            <div class="welcome">
+                <div>
+                    <h2>Cài đặt hệ thống</h2>
+                    <p>Điều chỉnh chế độ vận hành và ngưỡng mô phỏng.</p>
+                </div>
+                <div class="welcome-icon">⚙️</div>
+            </div>
+
+            <div class="panel settings-panel">
+
+                <h3>Chế độ dữ liệu</h3>
+                <div class="setting-row">
+    <div>
+        <b>Kết nối Arduino</b>
+        <p>Nhận dữ liệu từ Arduino qua cổng USB.</p>
+    </div>
+
+    <button class="primary-btn" id="connectArduino">
+        🔌 Kết nối thiết bị
+    </button>
+</div>
+
+<div class="setting-row">
+    <div>
+        <b>Trạng thái kết nối</b>
+        <p id="serialStatus">Chưa kết nối thiết bị</p>
+    </div>
+</div>
+
+                <div class="setting-row">
+                    <div>
+                        <b>Chế độ mô phỏng</b>
+                        <p>Website tự tạo dữ liệu để trình diễn.</p>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" id="simulationToggle" checked>
+                        <span class="slider-switch"></span>
+                    </label>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <b>Độ ẩm cảnh báo</b>
+                        <p>Ngưỡng mô phỏng để chuyển cảnh báo.</p>
+                    </div>
+
+                    <div class="setting-control">
+                        <input type="number" id="moistureThreshold" min="1" max="100" value="75">
+                        <span>%</span>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <b>Ngưỡng rung động</b>
+                        <p>Ngưỡng mô phỏng mức rung bất thường.</p>
+                    </div>
+
+                    <div class="setting-control">
+                        <input type="number" id="vibrationThreshold" min="1" max="100" value="65">
+                        <span>/100</span>
+                    </div>
+                </div>
+
+                <div class="setting-row">
+                    <div>
+                        <b>Âm thanh cảnh báo</b>
+                        <p>Phát âm thanh khi trạng thái cảnh báo thay đổi.</p>
+                    </div>
+
+                    <label class="switch">
+                        <input type="checkbox" id="soundToggle" checked>
+                        <span class="slider-switch"></span>
+                    </label>
+                </div>
+
+                <button class="primary-btn" id="saveSettings">
+                    💾 Lưu cài đặt
+                </button>
+
+                <button class="secondary-btn" id="resetSettings">
+                    Khôi phục mặc định
+                </button>
+
+            </div>
+
+            <div class="panel">
+                <h3>Thông tin dự án</h3>
+
+                <div class="project-details">
+                    <p><b>Tên:</b> Hệ thống giám sát và cảnh báo sạt lở đất</p>
+                    <p><b>Bộ điều khiển:</b> Arduino Uno</p>
+                    <p><b>Cảm biến:</b> Cảm biến độ ẩm đất, SW-420</p>
+                    <p><b>Website:</b> Giao diện theo dõi và hiển thị dữ liệu</p>
+                    <p><b>Phiên bản:</b> 2.0</p>
+                </div>
+            </div>
+
+        </section>
+
+        <footer>
+            <p>LANDSLIDE MONITOR SYSTEM © 2026</p>
+            <p>Hệ thống hỗ trợ giám sát – Không thay thế cảnh báo chính thức</p>
+        </footer>
+
+    </main>
+</div>
+
+<!-- THÔNG BÁO -->
+<div id="toast" class="toast">
+    <span id="toastIcon">ℹ️</span>
+    <span id="toastMessage">Thông báo</span>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
